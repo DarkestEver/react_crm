@@ -55,42 +55,48 @@ router.put('/role/:id', authenticateAdmin, async (req,res) => {
     
 })
 
-router.post('/signup', async (req, res) => {
+router.post('/auth/signup', async (req, res) => {
     const { username, password } = req.body;
-
-    const user = await User.findOne({ username });
-
-    if (user) {
-      res.status(403).json({ message: 'User already exists' });
-    } else {
+    try{
+        const user = await User.findOne({ username });
+        
+        if (user) {
+            res.status(403).json({ message: 'User already exists' });
+        } else {
         bcrypt.hash( password, saltRounds, async function(err, hash) {
             const newUser = new User({ username, password : hash });
             await newUser.save();
         });
         
-      const token = jwt.sign({ username, role: '65003456dc94a6865b256d38' }, process.env.SECRET, { expiresIn: '1h' });
-      res.json({ message: 'User created successfully', token });
+        const token = jwt.sign({ username, role: '65003456dc94a6865b256d38' }, process.env.SECRET, { expiresIn: '1h' });
+        res.json({ message: 'User created successfully', token });
+        }
+    }catch(err){
+        res.json({"message": 'Error', err})
     }
 });
   
-router.post('/login', async (req, res) => {
+router.post('/auth/login', async (req, res) => {
   const { username, password } = req.body;
-  
-  const user = await User.findOne({ username });
-
-  if(user){   
-      bcrypt.compare(password, user.password , function(err, result) {
+  try{
+      const user = await User.findOne({ username });
+      
+        if(user){   
+          bcrypt.compare(password, user.password , function(err, result) {
           if(err) throw err;
           if( result) {
-        const token = jwt.sign({ username, role: user.role }, process.env.SECRET, { expiresIn: '1h' });
-        res.json({ message: 'Logged in successfully', token });
-    } else {
-        res.status(403).json({ message: 'Invalid username or password' });
+              const token = jwt.sign({ username, role: user.role }, process.env.SECRET, { expiresIn: '1h' });
+              res.json({ message: 'Logged in successfully', token });
+            } else {
+                res.status(403).json({ message: 'Invalid username or password' });
+            }
+        });
+        }else{
+            res.status(403).json({ message: 'User does not exits' });
+        }
+    }catch(err){
+        res.json(res.json({"message": 'Error', err}));
     }
-});
-}else{
-    res.status(403).json({ message: 'User does not exits' });
-}
 
 });
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const cors = require('cors');
 require('dotenv').config()
 const userRoute = require('./routes/user');
 const roleRoute = require('./routes/role')
@@ -8,7 +8,7 @@ const permissionRoute = require('./routes/permission')
 const app = express();
 
 app.use(express.json());
-
+app.use(cors({ credentials:true, origin: process.env.ORIGIN_URL}));
 mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use('/api/user', userRoute);

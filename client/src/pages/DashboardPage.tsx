@@ -13,32 +13,33 @@ import {
 } from "@/components/ui/tabs"
 
 import { Button } from '../components/ui/button';
-import { CalendarDateRangePicker } from '../components/date-range-picker';
-import { MainNav } from '../components/main-nav';
-import { Overview } from '../components/overview';
-import { RecentSales } from '../components/recent-sales';
-import { Search } from '../components/search';
-import TeamSwitcher from '../components/team-switcher';
-import { UserNav } from '../components/user-nav';
+import { CalendarDateRangePicker } from '../components/Dashboard/date-range-picker';
+import { MainNav } from '../components/Dashboard/main-nav';
+import { Overview } from '../components/Dashboard/overview';
+import { RecentSales } from '../components/Dashboard/recent-sales';
+import { Search } from '../components/Dashboard/search';
+import TeamSwitcher from '../components/Dashboard/team-switcher';
+import { Toaster } from "@/components/ui/toaster";
+import { UserNav } from '../components/Dashboard/user-nav';
 
 export default function DashboardPage() {
   return (
     <> 
       <div className="md:hidden">
-        {/* <img
-          src="/examples/dashboard-light.png"
+        <img
+          src=""
           width={1280}
           height={866}
           alt="Dashboard"
           className="block dark:hidden"
         />
         <img
-          src="/examples/dashboard-dark.png"
+          src=""
           width={1280}
           height={866}
           alt="Dashboard"
           className="hidden dark:block"
-        /> */}
+        />
       </div>
       <div className="hidden flex-col md:flex">
         <div className="border-b">
@@ -62,13 +63,13 @@ export default function DashboardPage() {
           <Tabs defaultValue="overview" className="space-y-4">
             <TabsList>
               <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" disabled>
+              <TabsTrigger value="analytics" >
                 Analytics
               </TabsTrigger>
-              <TabsTrigger value="reports" disabled>
+              <TabsTrigger value="reports" >
                 Reports
               </TabsTrigger>
-              <TabsTrigger value="notifications" disabled>
+              <TabsTrigger value="notifications" >
                 Notifications
               </TabsTrigger>
             </TabsList>
@@ -200,6 +201,9 @@ export default function DashboardPage() {
             </TabsContent>
           </Tabs>
         </div>
+
+
+        <Toaster />
       </div>
     </>
   )
