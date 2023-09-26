@@ -27,7 +27,7 @@ app.post('/api/customer/upload', photosMidddleware.single('image'), function (re
         const newPath = path;
         fs.renameSync(path);
         res.send(req.file);
-    }catch(err){
+    }catch(error){
         res.status(500).json({ error: error.message });
     }
     // req.file is the `avatar` file

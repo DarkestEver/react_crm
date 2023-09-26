@@ -26,7 +26,7 @@ const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  password: z.string()
+  email: z.string()
 })
 
 type SinupForm = z.infer<typeof formSchema>
@@ -35,10 +35,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const { toast } = useToast();
   const [ redirect , setRedirect ] = useState(false);
   const { mutate: signUp , isLoading } = useMutation({
-    mutationFn: async ({ username, password }: SinupForm) => {
+    mutationFn: async ({ username, email }: SinupForm) => {
       const response  = await axios.post("/user/auth/signup", {
         username,
-        password
+        email
       });
       return response.data
     },
@@ -55,7 +55,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   function onSubmit( input: SinupForm ){
     signUp({
       username: input.username,
-      password: input.password,
+      email: input.email,
     },
     {
       onSuccess: ({token}) => {
@@ -102,11 +102,11 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           />
           <FormField
             control={form.control}
-            name="password"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  <Input placeholder="password" {...field} />
+                  <Input placeholder="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
