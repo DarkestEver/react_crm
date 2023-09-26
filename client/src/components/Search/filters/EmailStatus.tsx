@@ -61,9 +61,9 @@ export default function EmailStatus(){
               <CardContent className="p-4">
                 <div className="flex flex-col items-start space-x-2 gap-2">
                   <h4>Business Email Status</h4>
-                  { status.map((data) => {
+                  { status.map((data,index) => {
                     return (
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-center" key={index}>
                       <Checkbox id="keywords"/>
                       <label
                       htmlFor="keywords"

@@ -1,4 +1,4 @@
-const Role = require('../models/role');
+const Role = require('../models/roles');
 
 // Don't forget to add a authenticateJWT middleware before it, to get req.user
 const checkPermission = (requiredPermissions) => async (req, res, next) => {

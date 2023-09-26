@@ -8,10 +8,14 @@ import ProductsPage from './pages/ProductsPage';
 import SearchPage from "./pages/SearchPage";
 import SettingsAccountPage from './components/Settings/account/page';
 import SettingsAppearancePage from './components/Settings/appearance/page';
+import SettingsCustomersPage from './components/Settings/customers/page';
 import SettingsDisplayPage from './components/Settings/display/page';
+import SettingsLayoutPage from './pages/SettingsPage';
 import SettingsNotificationsPage from './components/Settings/notifications/page';
-import SettingsPage from './pages/SettingsPage';
-import SettingsProfilePage from './components/Settings/page';
+import SettingsPermissionsPage from './components/Settings/permissions/page';
+import SettingsProfilePage from './components/Settings/profile/page';
+import SettingsRolesPage from './components/Settings/roles/page';
+import SettingsUsersPage from './components/Settings/users/page';
 import SignupAuthPage from "./pages/SignupAuthPage";
 import TaskPage from './pages/TaskPage';
 import axios from "axios";
@@ -29,12 +33,19 @@ function App() {
         <Route path="/dashboard/search" Component={SearchPage} />
         <Route path="/dashboard/tasks" Component={TaskPage} />
         <Route path="/dashboard/products" Component={ProductsPage} /> 
-        <Route path="/settings" Component={SettingsPage} />     
-        <Route path="/settings/forms" Component={SettingsProfilePage} />      
-        <Route path="/settings/forms/account" Component={SettingsAccountPage} />      
-        <Route path="/settings/forms/appearance" Component={SettingsAppearancePage} />      
-        <Route path="/settings/forms/notifications" Component={SettingsNotificationsPage} />      
-        <Route path="/settings/forms/display" Component={SettingsDisplayPage} />      
+        <Route path="settings" element={<SettingsLayoutPage />}>
+          <Route path="profile" element={<SettingsProfilePage />} />
+          <Route path="users" element={<SettingsUsersPage />} />
+          <Route path="customers" element={<SettingsCustomersPage />} />
+          <Route path="roles" element={<SettingsRolesPage />} />
+          <Route path="permissions" element={<SettingsPermissionsPage />} />
+          <Route path="forms">
+            <Route path="account" element={<SettingsAccountPage />} />
+            <Route path="appearance" element={<SettingsAppearancePage />} />
+            <Route path="notifications" element={<SettingsNotificationsPage />} />
+            <Route path="display" element={<SettingsDisplayPage />} />
+        </Route>
+      </Route>
       </Routes>
     </>
   );

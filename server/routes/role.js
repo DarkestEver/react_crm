@@ -1,94 +1,59 @@
 const express = require('express');
 const router = express.Router();
-const Role = require('../models/role')
-const Permission = require('../models/permission')
-const { authenticateJwt, checkRole, authenticateAdmin } = require('../middleware/auth');
+const Role = require('../models/roles'); 
 
-router.get('/roles/:id', authenticateAdmin , async (req, res) => {
-    const { id } = req.params;
-    try {
-        const role = await Role.findById(id).populate('permission',['permissions']);
-        res.json(role);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+// Create a new role
+router.post('/roles', async (req, res) => {
+  try {
+    const newRole = new Role(req.body);
+    await newRole.save();
+    res.status(201).json(newRole);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
-
-router.get('/roles', authenticateAdmin, async (req, res) => {
-    try {
-        const roles = await Role.find();
-        res.json(roles);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+// Get all roles
+router.get('/roles', async (req, res) => {
+  try {
+    const roles = await Role.find({ "deleted": 0});
+    res.json(roles);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-router.post('/roles', authenticateAdmin, async (req, res) => {
-    const { role } = req.body;
-
-    try {
-        const existingRole = await Role.findOne({ role });
-
-        if (existingRole) {
-            return res.status(400).json({ message: 'Role already exists' });
-        }
-        const readPermission = await Permission.findOne({ _id: '65015420f46a885880dc7274' }); 
-
-        if (!readPermission) {
-            return res.status(404).json({ message: 'Read permission not found' });
-        }
-
-        const newRole = new Role({
-            role,
-            permission: [readPermission._id], 
-        });
-        
-        await newRole.save();
-
-        const populatedNewRole = await Role.findById(newRole._id).populate('permission',['permissions']);
-
-        res.status(201).json({ message: 'Role created successfully', populatedNewRole });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+// Get a role by ID
+router.get('/roles/:id', async (req, res) => {
+  try {
+    const role = await Role.findById(req.params.id);
+    if (!role) throw new Error('Role not found');
+    res.json(role);
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
 });
 
-router.put('/role', authenticateAdmin, async (req, res) => {
-    const { roleId, role} = req.body;
-
-    try {
-        const updatedRole = await Role.findByIdAndUpdate(roleId, { role }, { new: true });
-
-        if (!updatedRole) {
-            return res.status(404).json({ message: 'Role not found' });
-        }
-
-        res.json({ message: 'Role updated successfully', updatedRole });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-    
-});
-  
-router.delete('/role/:id', authenticateAdmin, async (req, res) => {
-    const roleId = req.params.id;
-    try {
-        const deletedRole = await Role.findByIdAndDelete(roleId);
-
-        if (!deletedRole) {
-            return res.status(404).json({ message: 'Role not found' });
-        }
-
-        res.json({ message: 'Role deleted successfully' });
-    }catch(error) {
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
+// Update a role by ID
+router.put('/roles/:id', async (req, res) => {
+  try {
+    const role = await Role.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!role) throw new Error('Role not found');
+    res.json(role);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
-  
+// Delete a role by ID
+router.put('/delete/roles/:id', async (req, res) => {
+  try {
+    const role = await Role.findByIdAndUpdate(req.params.id, {"deleted": 1} , { new: true });
+    if (!role) throw new Error('Role not found');
+    res.json({ message: 'Role deleted successfully', role });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 module.exports = router;

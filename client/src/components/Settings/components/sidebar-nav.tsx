@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -11,8 +11,8 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
-  const { pathname } = useParams();
-  console.log(pathname);
+  const location = useLocation();
+  const pathname = location.pathname;
 
   return (
     <nav
@@ -23,7 +23,6 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       {...props}
     >
       {items.map((item) => (
-        // Link 
         <Link
           key={item.href}
           to={item.href}

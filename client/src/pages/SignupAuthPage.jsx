@@ -1,11 +1,11 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+// import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import { Link } from "react-router-dom"
 import { UserAuthForm } from '@/components/authentication/components/user-auth-signup-form';
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-const queryClient = new QueryClient();
+// const queryClient = new QueryClient();
 
 export default function SignupAuthPage() {
   return (
@@ -57,9 +57,9 @@ export default function SignupAuthPage() {
                 Enter a username and password below to create a user.
               </p>
             </div>
-            <QueryClientProvider client={queryClient}>
+            {/* <QueryClientProvider client={queryClient}> */}
               <UserAuthForm />
-            </QueryClientProvider>
+            {/* </QueryClientProvider> */}
             <p className="px-8 text-center text-sm text-muted-foreground">
               By clicking continue, you agree to our{" "}
               <Link

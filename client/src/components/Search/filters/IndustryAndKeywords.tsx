@@ -118,7 +118,7 @@ const IndustryAndKeywords = () => {
                 <AccordionItem value="item-1">
                   <AccordionTrigger>Advanced settings</AccordionTrigger>
                   <AccordionContent>
-                    <Tabs defaultValue="account" className="w-[400px]">
+                    <Tabs defaultValue="account" className="w-auto">
                       <TabsList>
                         <TabsTrigger value="notAnyOf">Is not any of</TabsTrigger>
                         <TabsTrigger value="isKnown">Is known</TabsTrigger>

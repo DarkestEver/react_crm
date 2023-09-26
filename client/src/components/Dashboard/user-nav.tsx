@@ -47,7 +47,7 @@ export function UserNav() {
             Billing
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <Link to={'/settings'}>
+          <Link to={'/settings/profile'}>
             <DropdownMenuItem>
               Settings
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>

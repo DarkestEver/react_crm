@@ -1,55 +1,40 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useEffect, useState } from "react";
 
 import { Accordion } from "@/components/ui/accordion"
 import { Button } from '../components/ui/button';
 import { CalendarDateRangePicker } from "@/components/Dashboard/date-range-picker";
-import Company from "@/components/Search/components/Company"
-import CompanyKeywords from "@/components/Search/components/CompanyKeywords";
-import { DataTable } from "@/components/Tasks/components/data-table";
-import EmailStatus from "@/components/Search/components/EmailStatus";
-import { Employees } from "@/components/Search/components/Employees"
-import IndustryAndKeywords from "@/components/Search/components/IndustryAndKeywords"
-import JobTitles from "@/components/Search/components/JobTitles"
-import Lists from "@/components/Search/components/Lists"
-import Location from "@/components/Search/components/Location"
+import Company from "@/components/Search/filters/Company"
+import EmailStatus from "@/components/Search/filters/EmailStatus";
+import { Employees } from "@/components/Search/filters/Employees"
+import IndustryAndKeywords from "@/components/Search/filters/IndustryAndKeywords"
+import JobTitles from "@/components/Search/filters/JobTitles"
+import Lists from "@/components/Search/filters/Lists"
+import Location from "@/components/Search/filters/Location"
 import { MainNav } from '../components/Dashboard/main-nav';
-import Name from "@/components/Search/components/Name"
-import { ScrollArea } from "@/components/ui/scroll-area";
+import Name from "@/components/Search/filters/Name"
+import { People } from "@/components/Search/table/data/schema";
 import { Search } from '../components/Dashboard/search';
+import { SearchPeopleTable } from '@/components/Search/table/SearchPeopleTable';
 import TeamSwitcher from '../components/Dashboard/team-switcher';
 import { UserNav } from '../components/Dashboard/user-nav';
-import { columns } from "@/components/Tasks/components/columns";
-import { taskSchema } from "@/components/Tasks/data/schema";
-import { tasksData } from "@/components/Tasks/data/tasks";
-import { z } from "zod";
-
-interface Task {
-  id: string;
-  title: string;
-  status: string;
-  label: string;
-  priority: string;
-}
+import { columns } from "@/components/Search/table/data/columns";
+import { peopleData } from "@/components/Search/table/data/jsonData";
 
 export default function SearchPage() {
-  async function getTasks() {
-    const data = tasksData;
-    return z.array(taskSchema).parse(data);
-  }
-
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const [people, setPeople] = useState<People[]>([])
 
   useEffect(() => {
-    async function fetchTasks() {
-      const fetchedTasks = await getTasks();
-      setTasks(fetchedTasks);
+    async function fetchPeople() {
+      const data = peopleData;
+      setPeople(data);
     }
 
-    fetchTasks();
+    fetchPeople();
   }, []);
-
+  
     return (
       <> 
         <div className="h-screen hidden flex-col md:flex">
@@ -116,9 +101,12 @@ export default function SearchPage() {
                       <CardTitle>Overview</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <ScrollArea className="h-72 w-auto">
-                      <DataTable data={tasks} columns={columns} />
+
+                      <ScrollArea className="h-[280px] w-auto">
+                        <ScrollBar orientation="horizontal" />
+                            <SearchPeopleTable data={people} columns={columns} />
                       </ScrollArea>
+
                     </CardContent>
                   </Card>
                   
@@ -153,12 +141,6 @@ export default function SearchPage() {
   
 
 
-// import {
-//     AccordionContent,
-//     AccordionItem,
-//     AccordionTrigger,
-// } from "@/components/ui/accordion"
-// import { Card, CardContent } from "@/components/ui/card";
 
 // export default function EmailStatus(){
    

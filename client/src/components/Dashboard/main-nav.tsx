@@ -35,7 +35,7 @@ export function MainNav({
         Products
       </Link>
       <Link
-        to="/settings"
+        to="/settings/profile"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
         Settings
