@@ -1,10 +1,9 @@
 const mongoose = require('mongoose');
 
 const roleSchema = new mongoose.Schema({
-  role_id: { type: Number, unique: true, required: true },
   role_name: { type: String, required: true },
   description: String,
-  default: { type: Number, default: 0 },
+  deleted: { type: Number, default: 0 },
   can_delete: { type: Number, required: true },
   login_destination: { type: String, required: true },
   default_context: { type: String, required: true },

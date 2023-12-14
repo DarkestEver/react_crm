@@ -35,6 +35,12 @@ export function MainNav({
         Products
       </Link>
       <Link
+        to="/dashboard/wms"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      >
+        WMS
+      </Link>
+      <Link
         to="/settings/profile"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >

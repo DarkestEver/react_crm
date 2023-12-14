@@ -18,10 +18,13 @@ import SettingsRolesPage from './components/Settings/roles/page';
 import SettingsUsersPage from './components/Settings/users/page';
 import SignupAuthPage from "./pages/SignupAuthPage";
 import TaskPage from './pages/TaskPage';
+import WebsiteManagementSystem from './pages/WebsiteManagementSystem';
 import axios from "axios";
 
 axios.defaults.baseURL= import.meta.env.VITE_API_BASE_URL;
 axios.defaults.withCredentials = true;
+
+
 
 function App() {
   return (
@@ -33,6 +36,7 @@ function App() {
         <Route path="/dashboard/search" Component={SearchPage} />
         <Route path="/dashboard/tasks" Component={TaskPage} />
         <Route path="/dashboard/products" Component={ProductsPage} /> 
+        <Route path="/dashboard/wms" Component={WebsiteManagementSystem} /> 
         <Route path="settings" element={<SettingsLayoutPage />}>
           <Route path="profile" element={<SettingsProfilePage />} />
           <Route path="users" element={<SettingsUsersPage />} />
